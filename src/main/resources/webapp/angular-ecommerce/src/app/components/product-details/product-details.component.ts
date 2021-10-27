@@ -10,9 +10,7 @@ import {Product} from "../../common/product";
 })
 export class ProductDetailsComponent implements OnInit {
 
-  product: Product = new Product("", "", "",
-    "", 0, "", false,
-    0, new Date(), new Date());
+  product: Product = new Product();
 
   constructor(private productService: ProductService,
               private route: ActivatedRoute) {

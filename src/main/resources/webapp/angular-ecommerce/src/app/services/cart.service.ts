@@ -16,23 +16,7 @@ export class CartService {
 
   addToCart(cartItem: CartItem) {
     let item = this.cartItems.find(itemInCart => itemInCart.id === cartItem.id)
-    if (item != undefined) {
-      item.quantity++;
-    } else {
-      this.cartItems.push(cartItem);
-    }
-    this.computeCartTotals();
-  }
-
-  addToCart2(cartItem: CartItem) {
-    for (let itemInCart of this.cartItems) {
-      if (itemInCart.id === cartItem.id) {
-        itemInCart.quantity++;
-        this.computeCartTotals();
-        return;
-      }
-    }
-    this.cartItems.push(cartItem);
+    item === undefined ? this.cartItems.push(cartItem) : item.quantity++;
     this.computeCartTotals();
   }
 

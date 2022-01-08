@@ -12,6 +12,7 @@ import {CartItem} from "../../common/cart-item";
 })
 export class ProductDetailsComponent implements OnInit {
 
+  // @ts-ignore
   product: Product = new Product();
 
   constructor(private productService: ProductService,

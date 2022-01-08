@@ -14,6 +14,15 @@ export class CartService {
   constructor() {
   }
 
+  decrementQuantity(cartItem: CartItem) {
+    cartItem.quantity--;
+    if (cartItem.quantity === 0) {
+      this.remove(cartItem);
+    } else {
+      this.computeCartTotals();
+    }
+  }
+
   addToCart(cartItem: CartItem) {
     let item = this.cartItems.find(itemInCart => itemInCart.id === cartItem.id)
     item === undefined ? this.cartItems.push(cartItem) : item.quantity++;
@@ -48,6 +57,14 @@ export class CartService {
     console.log(`totalPrice: ${totalPriceValue.toFixed(2)},
     totalQuantity: ${totalQuantityValue}`);
     console.log('----');
+  }
+
+  remove(cartItem: CartItem) {
+    const itemIndex = this.cartItems.findIndex(item => item.id === cartItem.id);
+    if (itemIndex > -1) {
+      this.cartItems.splice(itemIndex, 1);
+      this.computeCartTotals();
+    }
   }
 
 }

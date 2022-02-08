@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: library/mysql:latest
+    container_name: springboot-ecommerce-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root-password
+      MYSQL_DATABASE: full-stack-ecommerce
+      MYSQL_USER: ecommerceapp
+      MYSQL_PASSWORD: ecommerceapp
+    # Relocate data-volume
+    volumes:
+      - ./data-volume:/var/lib/mysql
+    restart: always
+
+  springboot-backend:
+    build: ./
+    ports:
+      - 8080:8080
+      - 8081:8081
+    depends_on:
+      - mysql
+    links:
+      - mysql:mysql
+    restart: always
+    container_name: springboot-ecommerce-container

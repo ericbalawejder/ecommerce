@@ -19,3 +19,38 @@ $ cd spring-boot-ecommerce/src/main/resources/webapp/angular-ecommerce
 $ ng serve
 ```
 visit: http://localhost:4200
+
+### Docker
+The `spring.datasource.url` in the `application.properties` file needs to be updated to use the data source in
+the mysql container.
+```properties
+spring.datasource.url=jdbc:mysql://springboot-ecommerce-mysql:3306/full-stack-ecommerce?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=UTC
+```
+Docker currently only runs the spring boot backend and mysql database.
+```shell
+$ docker-compose up
+```
+Login to the mysql container and create sample data using `/mysql/02-create-products.sql`
+```shell
+$ docker exec -t -i springboot-ecommerce-mysql /bin/bash
+```
+Use the credentials in the docker-compose file. (Should be in [git-secret](https://git-secret.io/))
+```shell
+root@2fbfb39dd83b:/# mysql -u <useranme> -p
+```
+The `data-volume` directory will appear in the root directory. This ultimately should be outside the application
+and is configured in the `docker-compose.yml` file. 
+
+#### Clean up
+Remove all containers wrapped in compose.
+```
+$ docker-compose down
+```
+Remove all images.
+```
+$ docker rmi $(docker images -a)
+```
+Remove a specific image.
+```
+$ docker rmi <image-id>
+```

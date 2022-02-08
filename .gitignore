@@ -5,6 +5,9 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+# Docker data volume has rsa private key
+data-volume
+
 ### STS ###
 .apt_generated
 .classpath

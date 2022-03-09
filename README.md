@@ -34,12 +34,12 @@ Login to the mysql container and create sample data using `/mysql/02-create-prod
 ```shell
 $ docker exec -t -i springboot-ecommerce-mysql /bin/bash
 ```
-Use the credentials in the docker-compose file. (Should be in [git-secret](https://git-secret.io/))
+Use the credentials in the docker-compose file.
 ```shell
 root@2fbfb39dd83b:/# mysql -u <useranme> -p
 ```
-The `data-volume` directory will appear in the root directory. This ultimately should be outside the application
-and is configured in the `docker-compose.yml` file. 
+The `data-volume` directory will appear `mysql-data-volume:/var/lib/mysql` and can be shown with 
+the `docker volume ls` command
 
 #### Clean up
 Remove all containers wrapped in compose.
@@ -53,4 +53,12 @@ $ docker rmi $(docker images -a)
 Remove a specific image.
 ```
 $ docker rmi <image-id>
+```
+Volumes exists:
+```
+$ docker volume ls
+```
+[Prune](https://docs.docker.com/config/pruning/) resources if you like.
+```
+$ docker volume prune
 ```

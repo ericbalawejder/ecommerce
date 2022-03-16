@@ -3,7 +3,6 @@ version: '3.9'
 services:
   mysql:
     image: library/mysql:latest
-    container_name: springboot-ecommerce-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root-password
       MYSQL_DATABASE: full-stack-ecommerce
@@ -12,6 +11,7 @@ services:
     volumes:
       - mysql-data-volume:/var/lib/mysql:rw
     restart: always
+    container_name: springboot-ecommerce-mysql
 
   springboot-backend:
     build: ./
@@ -20,10 +20,16 @@ services:
       - "8081:8081"
     depends_on:
       - mysql
-    links:
-      - mysql:mysql
     restart: always
     container_name: springboot-ecommerce-container
+
+  angular-frontend:
+    build: ./src/main/resources/webapp/angular-ecommerce
+    ports:
+      - "4200:4200"
+    depends_on:
+      - springboot-backend
+    container_name: angular-ecommerce-container
 
 volumes:
   mysql-data-volume:

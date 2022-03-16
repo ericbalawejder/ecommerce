@@ -1,14 +1,41 @@
-# ecommerce
+# Ecommerce
 
-An ecommerce shopping application build with Spring Boot and [Angular](https://angular.io/guide/file-structure). 
-Styles created with [bootstrap](https://getbootstrap.com/).
+An ecommerce shopping application built with Spring Boot, [Angular](https://angular.io/guide/file-structure) 
+and MySQL. Styles created with [Bootstrap](https://getbootstrap.com/).
 
-[Lombok and JPA use](https://dzone.com/articles/lombok-and-jpa-what-may-go-wrong) issues.
+### Run with Docker
+```
+$ ./gradlew clean assemble
+$ docker-compose up
+```
 
-### To run
+Visit http://localhost:4200
+
+The application currently doesn't have any data.
+
+Login to the mysql container and create sample data using 
+`src/main/resources/mysql/refresh-database-with-100-products.sql` and
+`src/main/resources/mysql/countries-and-states.sql`
+
+```shell
+$ docker exec -t -i springboot-ecommerce-mysql /bin/bash
+```
+Use the credentials in the docker-compose file.
+```shell
+root@2fbfb39dd83b:/# mysql -u <useranme> -p
+```
+The `data-volume` directory will appear `mysql-data-volume:/var/lib/mysql` and can be shown with 
+the `docker volume ls` command
+
+### To run locally
+The `spring.datasource.url` in the `application.properties` file needs to be updated to use the local datasource.
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/full-stack-ecommerce?useSSL=...
+```
 To run the Spring Boot back end:
 ```
 $ cd spring-boot-ecommerce
+$ ./gradlew clean assemble
 $ ./gradlew bootRun
 ```
 visit: http://localhost:8080/api/products
@@ -20,39 +47,18 @@ $ ng serve
 ```
 visit: http://localhost:4200
 
-### Docker
-The `spring.datasource.url` in the `application.properties` file needs to be updated to use the data source in
-the mysql container.
-```properties
-spring.datasource.url=jdbc:mysql://springboot-ecommerce-mysql:3306/full-stack-ecommerce?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=UTC
-```
-Docker currently only runs the spring boot backend and mysql database.
-```shell
-$ docker-compose up
-```
-Login to the mysql container and create sample data using `/mysql/02-create-products.sql`
-```shell
-$ docker exec -t -i springboot-ecommerce-mysql /bin/bash
-```
-Use the credentials in the docker-compose file.
-```shell
-root@2fbfb39dd83b:/# mysql -u <useranme> -p
-```
-The `data-volume` directory will appear `mysql-data-volume:/var/lib/mysql` and can be shown with 
-the `docker volume ls` command
-
-#### Clean up
+### Clean up
 Remove all containers wrapped in compose.
 ```
 $ docker-compose down
 ```
-Remove all images.
-```
-$ docker rmi $(docker images -a)
-```
 Remove a specific image.
 ```
 $ docker rmi <image-id>
+```
+Remove all images.
+```
+$ docker rmi $(docker images -aq)
 ```
 Volumes exists:
 ```

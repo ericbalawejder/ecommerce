@@ -4,8 +4,18 @@ An ecommerce shopping application built with Spring Boot, [Angular](https://angu
 and MySQL. Styles created with [Bootstrap](https://getbootstrap.com/).
 
 ### Run with Docker
-```
+After cloning, build the jar file:
+```shell
 $ ./gradlew clean assemble
+```
+Move to the front end web application root directory and build the `/dist` folder:
+```shell
+$ cd src/main/resources/webapp/angular-ecommerce
+$ ng build
+```
+Return to the root directory and run compose:
+```shell
+$ cd -
 $ docker-compose up
 ```
 
@@ -33,7 +43,7 @@ The `spring.datasource.url` in the `application.properties` file needs to be upd
 spring.datasource.url=jdbc:mysql://localhost:3306/full-stack-ecommerce?useSSL=...
 ```
 To run the Spring Boot back end:
-```
+```shell
 $ cd spring-boot-ecommerce
 $ ./gradlew clean assemble
 $ ./gradlew bootRun
@@ -41,7 +51,7 @@ $ ./gradlew bootRun
 visit: http://localhost:8080/api/products
 
 To run the Angular front end:
-```
+```shell
 $ cd spring-boot-ecommerce/src/main/resources/webapp/angular-ecommerce
 $ ng serve
 ```
